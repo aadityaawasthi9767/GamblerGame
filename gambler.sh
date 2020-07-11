@@ -1,57 +1,100 @@
-#! /bin/bash -x
+#! /bin/bash -
+
 
 #CONSTANTS
-DAILY_AMOUNT=100;
-DAILY_BET=1;
-WON=1;
-LOSS=0;
-MAX_LIMIT=150;
-MIN_LIMIT=50;
-MAX_DAYS=20;
+dailyAmount=100;
+dailyBet=1;
+won=1;
+loss=0;
+maxLimit=150;
+minLimit=50;
+maxDays=20;
+
 #ARRAY
 declare -a recordHistory[100];
+declare -a recordWinningHistory[50];
+declare -a recordLossingHistory[50];
 
 #VARIABLES
-duplicateAmount=$((DAILY_AMOUNT));
-counter=0;
+duplicateAmount=$((dailyAmount));
+counterRecordHistory=0;
 sum=0;
+#counter2=0;
+#counter3=0;
+counterRecordWinningHistory=0;
+counterRecordLossingHistory=0;
 
-for((i=0;i<$MAX_DAYS;i++))
+for((i=0;i<$maxDays;i++))
 do
 	duplicateAmount=100;
 
-	while [[ $duplicateAmount -gt $MIN_LIMIT && $duplicateAmount -lt $MAX_LIMIT ]]
+	while [[ $duplicateAmount -gt $minLimit && $duplicateAmount -lt $maxLimit ]]
 	do
 
 		betCheck=$((RANDOM%2));
    		case $betCheck in
-         	      $WON)
+         	      $won)
             	         duplicateAmount=$((duplicateAmount+1));;
-            #   	      echo "WON this bet";;
 
-               	$LOSS)
+               	$loss)
                      	duplicateAmount=$((duplicateAmount-1));;
-             #     	   echo "LOST this bet";;
 
                  		 *)
                      	echo "Wrong Input";;
    		esac
 	done
-	recordHistory[((counter++))]=$duplicateAmount;
+		recordHistory[((counterRecordHistory++))]=$((duplicateAmount));
+		if [ $duplicateAmount -eq $maxLimit ]
+		then
+			recordWinningHistory[((counterRecordWinningHistory++))]=$((duplicateAmount))
+			echo "Day " $counterRecordHistory " You Win! :" $duplicateAmount;
+
+		elif [ $duplicateAmount -eq $minLimit ]
+		then
+			recordLossingHistory[((counterRecordLossingHistory++))]=$((duplicateAmount))
+			echo "Day " $counterRecordHistory " You Lost! :" $duplicateAmount;
+
+		fi
+
 done
 
 aLenght=${recordHistory[@]}
 echo "ArrayValues: " $aLenght;
-echo "ArrayLenght" ${#recordHistory[@]};
+echo "Number of record in WHistory: " ${#recordHistory[@]};
+echo "Number of records in winning: " ${#recordWinningHistory[@]};
+echo "Number of records in Lossing: " ${#recordLossingHistory[@]};
 
 
 for i in ${recordHistory[@]}
 do
-    sum=$(($sum + $i));
+    totalSum=$(($totalSum + $i));
 
 done
- echo "Total Amount after 10 days: "$sum;
+
+for j in ${recordWinnigHistory[@]}
+do
+	winSum=$(($winSum + $j))
+
+done
+
+for k in ${recordLossingHistory[@]}
+do
+	lossSum=$(($lossSum + $k))
+
+done
 
 
+echo "Total Amount after 20 days: "$totalSum;
+echo "Total Winning Days: " $counterRecordWinningHistory;
+echo "Total Winning Amount: " $winSum;
+echo "Total Lossing Days: " $counterRecordLossingHistory;
+echo "Total Lossing Amount: " $lossSum;
 
-#echo "New Amount: " $duplicateAmount;
+monthlyAmount=$((dailyAmount*20))
+moneyCheck=$((totalSum-monthlyAmount))
+if [[ $moneyCheck -gt 0 ]]
+then
+	echo "Profit: " $moneyCheck;
+else
+	echo "Loss: " $moneyCheck;
+fi
