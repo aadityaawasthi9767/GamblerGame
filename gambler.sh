@@ -1,0 +1,5 @@
+#! /bin/bash -x
+
+#CONSTANTS
+DAILY_AMOUNT=100;
+DAILY_BET=1;
