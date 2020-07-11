@@ -7,7 +7,7 @@ WON=1;
 LOSS=0;
 MAX_LIMIT=150;
 MIN_LIMIT=50;
-
+MAX_DAYS=20;
 #ARRAY
 declare -a recordHistory[100];
 
@@ -20,21 +20,21 @@ for((i=0;i<$MAX_DAYS;i++))
 do
 	duplicateAmount=100;
 
-	while [[ $duplicateAmount -ge $MIN_LIMIT && $duplicateAmount -le $MAX_LIMIT ]]
+	while [[ $duplicateAmount -gt $MIN_LIMIT && $duplicateAmount -lt $MAX_LIMIT ]]
 	do
 
 		betCheck=$((RANDOM%2));
    		case $betCheck in
          	      $WON)
-            	         duplicateAmount=$((duplicateAmount+1));
-               	      echo "WON this bet";;
+            	         duplicateAmount=$((duplicateAmount+1));;
+            #   	      echo "WON this bet";;
 
                	$LOSS)
-                     	duplicateAmount=$((duplicateAmount-1));
-                  	   echo "LOST this bet";;
+                     	duplicateAmount=$((duplicateAmount-1));;
+             #     	   echo "LOST this bet";;
 
                  		 *)
-                     	echo "Wrong Input";
+                     	echo "Wrong Input";;
    		esac
 	done
 	recordHistory[((counter++))]=$duplicateAmount;
