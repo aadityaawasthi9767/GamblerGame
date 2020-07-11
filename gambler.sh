@@ -18,9 +18,7 @@ declare -a recordLossingHistory[50];
 #VARIABLES
 duplicateAmount=$((dailyAmount));
 counterRecordHistory=0;
-sum=0;
-#counter2=0;
-#counter3=0;
+totalSum=0;
 counterRecordWinningHistory=0;
 counterRecordLossingHistory=0;
 
@@ -71,7 +69,7 @@ do
 
 done
 
-for j in ${recordWinnigHistory[@]}
+for j in ${recordWinningHistory[@]}
 do
 	winSum=$(($winSum + $j))
 
