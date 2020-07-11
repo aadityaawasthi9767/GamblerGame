@@ -8,23 +8,50 @@ LOSS=0;
 MAX_LIMIT=150;
 MIN_LIMIT=50;
 
+#ARRAY
+declare -a recordHistory[100];
+
+#VARIABLES
 duplicateAmount=$((DAILY_AMOUNT));
+counter=0;
+sum=0;
 
-while [[ $duplicateAmount -ge $MIN_LIMIT && $duplicateAmount -le $MAX_LIMIT ]]
+for((i=0;i<$MAX_DAYS;i++))
 do
+	duplicateAmount=100;
 
-betCheck=$((RANDOM%2));
-   case $betCheck in
-               $WON)
-                     duplicateAmount=$((duplicateAmount+1));
-                     echo "WON this bet";;
+	while [[ $duplicateAmount -ge $MIN_LIMIT && $duplicateAmount -le $MAX_LIMIT ]]
+	do
 
-               $LOSS)
-                     duplicateAmount=$((duplicateAmount-1));
-                     echo "LOST this bet";;
+		betCheck=$((RANDOM%2));
+   		case $betCheck in
+         	      $WON)
+            	         duplicateAmount=$((duplicateAmount+1));
+               	      echo "WON this bet";;
 
-                  *)
-                     echo "Wrong Input";
-   esac
+               	$LOSS)
+                     	duplicateAmount=$((duplicateAmount-1));
+                  	   echo "LOST this bet";;
+
+                 		 *)
+                     	echo "Wrong Input";
+   		esac
+	done
+	recordHistory[((counter++))]=$duplicateAmount;
 done
-echo "New Amount: " $duplicateAmount;
+
+aLenght=${recordHistory[@]}
+echo "ArrayValues: " $aLenght;
+echo "ArrayLenght" ${#recordHistory[@]};
+
+
+for i in ${recordHistory[@]}
+do
+    sum=$(($sum + $i));
+
+done
+ echo "Total Amount after 10 days: "$sum;
+
+
+
+#echo "New Amount: " $duplicateAmount;
