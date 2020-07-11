@@ -71,7 +71,7 @@ do
 
 done
 
-for j in ${recordWinnigHistory[@]}
+for j in ${recordWinningHistory[@]}
 do
 	winSum=$(($winSum + $j))
 
