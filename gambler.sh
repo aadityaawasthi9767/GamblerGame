@@ -1,4 +1,4 @@
-#! /bin/bash -
+#! /bin/bash 
 
 
 #CONSTANTS
@@ -6,9 +6,10 @@ dailyAmount=100;
 dailyBet=1;
 won=1;
 loss=0;
-maxLimit=150;
-minLimit=50;
-maxDays=20;
+duplicateAmount=$((dailyAmount));
+maxLimit=105;
+minLimit=95;
+maxDays=5;
 
 #ARRAY
 declare -a recordHistory[100];
@@ -16,17 +17,17 @@ declare -a recordWinningHistory[50];
 declare -a recordLossingHistory[50];
 
 #VARIABLES
-duplicateAmount=$((dailyAmount));
 counterRecordHistory=0;
 sum=0;
-#counter2=0;
-#counter3=0;
 counterRecordWinningHistory=0;
 counterRecordLossingHistory=0;
 
-for((i=0;i<$maxDays;i++))
+for((index=0;index<$maxDays;index++))
 do
-	duplicateAmount=100;
+
+	duplicateAmount=$((temp+100));
+	maxLimit=$(($duplicateAmount + (( $duplicateAmount / 2 )) ));
+	minLimit=$(($duplicateAmount - (( $duplicateAmount / 2 )) ));
 
 	while [[ $duplicateAmount -gt $minLimit && $duplicateAmount -lt $maxLimit ]]
 	do
@@ -43,6 +44,9 @@ do
                      	echo "Wrong Input";;
    		esac
 	done
+
+		temp=$((duplicateAmount));
+
 		recordHistory[((counterRecordHistory++))]=$((duplicateAmount));
 		if [ $duplicateAmount -eq $maxLimit ]
 		then
@@ -58,28 +62,51 @@ do
 
 done
 
-aLenght=${recordHistory[@]}
-echo "ArrayValues: " $aLenght;
+aLenght=${#recordHistory[@]}
+
+function sortArray(){
+
+	for ((index = 0; index<aLenght-1; index++))
+	do
+   	 for((j = index + 1; j<aLenght; j++))
+    	 do
+
+       	 if [[ ${recordHistory[index]} -gt ${recordHisory[[j]} ]]
+       	 then
+
+				temp=${recordHistory[index]}
+            recordHistory[$index]=${recordHistory[j]}
+            recordHistory[j]=$temp
+	        fi
+   	 done
+	done
+}
+
+echo "Array in sorted order :"
+echo ${recordHistory[@]};
+
+echo "Your Unluckies Day: " ${recordHistory[0]};
+echo "Your Luckiest Day: " ${recordHistory[4]};
 echo "Number of record in WHistory: " ${#recordHistory[@]};
 echo "Number of records in winning: " ${#recordWinningHistory[@]};
 echo "Number of records in Lossing: " ${#recordLossingHistory[@]};
 
 
-for i in ${recordHistory[@]}
+for index in ${recordHistory[@]}
 do
-    totalSum=$(($totalSum + $i));
+    totalSum=$(($totalSum + $index));
 
 done
 
-for j in ${recordWinningHistory[@]}
+for index in ${recordWinningHistory[@]}
 do
-	winSum=$(($winSum + $j))
+	winSum=$(($winSum + $index))
 
 done
 
-for k in ${recordLossingHistory[@]}
+for index in ${recordLossingHistory[@]}
 do
-	lossSum=$(($lossSum + $k))
+	lossSum=$(($lossSum + $index))
 
 done
 
@@ -98,3 +125,5 @@ then
 else
 	echo "Loss: " $moneyCheck;
 fi
+
+sortArray()
