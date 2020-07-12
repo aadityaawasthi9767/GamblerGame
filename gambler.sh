@@ -10,6 +10,8 @@ duplicateAmount=$((dailyAmount));
 maxLimit=150;
 minLimit=50;
 maxDays=20;
+monthlyAmount=$((dailyAmount*20))
+
 
 #ARRAY
 declare -a recordHistory[100];
@@ -22,50 +24,47 @@ sum=0;
 counterRecordWinningHistory=0;
 counterRecordLossingHistory=0;
 
-
-
 for((index=0;index<$maxDays;index++))
-do
-
-	duplicateAmount=$((temp+100));
-	maxLimit=$(($duplicateAmount + (( $duplicateAmount / 2 )) ));
-	minLimit=$(($duplicateAmount - (( $duplicateAmount / 2 )) ));
-
-	while [[ $duplicateAmount -gt $minLimit && $duplicateAmount -lt $maxLimit ]]
 	do
 
-		betCheck=$((RANDOM%2));
-   		case $betCheck in
-         	      $won)
-            	         duplicateAmount=$((duplicateAmount+1));;
+		duplicateAmount=$((temp+100));
+		maxLimit=$(($duplicateAmount + (( $duplicateAmount / 2 )) ));
+		minLimit=$(($duplicateAmount - (( $duplicateAmount / 2 )) ));
 
-               	$loss)
-                     	duplicateAmount=$((duplicateAmount-1));;
+		while [[ $duplicateAmount -gt $minLimit && $duplicateAmount -lt $maxLimit ]]
+		do
 
-                 		 *)
-                     	echo "Wrong Input";;
-   		esac
-	done
+			betCheck=$((RANDOM%2));
+   			case $betCheck in
+         		      $won)
+            		         duplicateAmount=$((duplicateAmount+1));;
 
-		temp=$((duplicateAmount));
+               		$loss)
+                     		duplicateAmount=$((duplicateAmount-1));;
 
-		recordHistory[((counterRecordHistory++))]=$((duplicateAmount));
-		if [ $duplicateAmount -eq $maxLimit ]
-		then
-			recordWinningHistory[((counterRecordWinningHistory++))]=$((duplicateAmount))
-			echo "Day " $counterRecordHistory " You Win! :" $duplicateAmount;
+                 		 	*)
+                     		echo "Wrong Input";;
+   			esac
+		done
 
-		elif [ $duplicateAmount -eq $minLimit ]
-		then
-			recordLossingHistory[((counterRecordLossingHistory++))]=$((duplicateAmount))
-			echo "Day " $counterRecordHistory " You Lost! :" $duplicateAmount;
+			temp=$((duplicateAmount));
 
-		fi
+			recordHistory[((counterRecordHistory++))]=$((duplicateAmount));
+			if [ $duplicateAmount -eq $maxLimit ]
+			then
+				recordWinningHistory[((counterRecordWinningHistory++))]=$((duplicateAmount))
+				echo "Day " $counterRecordHistory " You Win! :" $duplicateAmount;
+
+			elif [ $duplicateAmount -eq $minLimit ]
+			then
+				recordLossingHistory[((counterRecordLossingHistory++))]=$((duplicateAmount))
+				echo "Day " $counterRecordHistory " You Lost! :" $duplicateAmount;
+
+			fi
 
 done
 
-
-aLenght=${#recordHistory[@]}
+	aLenght=${#recordHistory[@]}
 
 
 function sortArray(){
@@ -138,12 +137,13 @@ echo "Total Lossing Amount: " $lossSum;
 
 function monthlyProfitLoss(){
 
-	monthlyAmount=$((dailyAmount*20))
 	moneyCheck=$((totalSum-monthlyAmount))
 	if [[ $moneyCheck -gt 0 ]]
 	then
 		echo "Profit: " $moneyCheck;
 		echo "Your Game will be continued for next Month";
+		duplicateAmount=$((moneyCheck+duplicateAmount));
+		echo "New Amount for this Month: " $duplicateAmount;
 	else
 		echo "Loss: " $moneyCheck;
 		echo "You are in debt! Unfortunatly you CAN'T continue."
