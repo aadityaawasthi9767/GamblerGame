@@ -139,7 +139,6 @@ echo "Total Lossing Days: " $counterRecordLossingHistory;
 echo "Total Lossing Amount: " $lossSum;
 }
 
-
 function monthlyProfitLoss(){
 
 	monthlyAmount=$((dailyAmount*20))
@@ -147,8 +146,10 @@ function monthlyProfitLoss(){
 	if [[ $moneyCheck -gt 0 ]]
 	then
 		echo "Profit: " $moneyCheck;
+		echo "Your Game will be continued for next Month";
 	else
 		echo "Loss: " $moneyCheck;
+		echo "You are in debt! Unfortunatly you CAN'T continue."
 	fi
 }
 
@@ -161,3 +162,4 @@ sumWinningHistory
 sumLosingHistory
 displayRecords
 monthlyProfitLoss
+.pok
