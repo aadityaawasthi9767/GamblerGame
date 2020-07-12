@@ -7,9 +7,9 @@ dailyBet=1;
 won=1;
 loss=0;
 duplicateAmount=$((dailyAmount));
-maxLimit=105;
-minLimit=95;
-maxDays=5;
+maxLimit=150;
+minLimit=50;
+maxDays=20;
 
 #ARRAY
 declare -a recordHistory[100];
@@ -21,6 +21,8 @@ counterRecordHistory=0;
 sum=0;
 counterRecordWinningHistory=0;
 counterRecordLossingHistory=0;
+
+
 
 for((index=0;index<$maxDays;index++))
 do
@@ -62,68 +64,100 @@ do
 
 done
 
+
 aLenght=${#recordHistory[@]}
+
 
 function sortArray(){
 
-	for ((index = 0; index<aLenght-1; index++))
+	for ((index = 0; index<=$aLenght; index++))
 	do
-   	 for((j = index + 1; j<aLenght; j++))
+   	 for((j = index + 1; j < $aLenght ; j++))
     	 do
 
-       	 if [[ ${recordHistory[index]} -gt ${recordHisory[[j]} ]]
+       	 if [[ ${recordHistory[index]} -gt ${recordHistory[j]} ]]
        	 then
-
+				#echo "reading if condition"
 				temp=${recordHistory[index]}
-            recordHistory[$index]=${recordHistory[j]}
+            recordHistory[index]=${recordHistory[j]}
             recordHistory[j]=$temp
 	        fi
    	 done
 	done
-}
+
 
 echo "Array in sorted order :"
-echo ${recordHistory[@]};
-
+for((i=0;i<aLenght;i++))
+do
+echo ${recordHistory[i]}
+done
 echo "Your Unluckies Day: " ${recordHistory[0]};
-echo "Your Luckiest Day: " ${recordHistory[4]};
+echo "Your Luckiest Day: " ${recordHistory[19]};
+
+}
+
+#echo "Your Unluckies Day: " ${recordHistory[0]};
+#echo "Your Luckiest Day: " ${recordHistory[4]};
 echo "Number of record in WHistory: " ${#recordHistory[@]};
 echo "Number of records in winning: " ${#recordWinningHistory[@]};
 echo "Number of records in Lossing: " ${#recordLossingHistory[@]};
 
 
-for index in ${recordHistory[@]}
-do
-    totalSum=$(($totalSum + $index));
+function sumTotalHistory(){
 
-done
+	for index in ${recordHistory[@]}
+	do
+   	 totalSum=$(($totalSum + $index));
+	done
+}
 
-for index in ${recordWinningHistory[@]}
-do
-	winSum=$(($winSum + $index))
 
-done
+function sumWinningHistory(){
 
-for index in ${recordLossingHistory[@]}
-do
-	lossSum=$(($lossSum + $index))
+	for index in ${recordWinningHistory[@]}
+	do
+		winSum=$(($winSum + $index));
+	done
+}
 
-done
 
+function sumLosingHistory(){
+
+	for index in ${recordLossingHistory[@]}
+	do
+		lossSum=$(($lossSum + $index))
+	done
+}
+
+
+function displayRecords(){
 
 echo "Total Amount after 20 days: "$totalSum;
 echo "Total Winning Days: " $counterRecordWinningHistory;
 echo "Total Winning Amount: " $winSum;
 echo "Total Lossing Days: " $counterRecordLossingHistory;
 echo "Total Lossing Amount: " $lossSum;
+}
 
-monthlyAmount=$((dailyAmount*20))
-moneyCheck=$((totalSum-monthlyAmount))
-if [[ $moneyCheck -gt 0 ]]
-then
-	echo "Profit: " $moneyCheck;
-else
-	echo "Loss: " $moneyCheck;
-fi
 
-sortArray()
+function monthlyProfitLoss(){
+
+	monthlyAmount=$((dailyAmount*20))
+	moneyCheck=$((totalSum-monthlyAmount))
+	if [[ $moneyCheck -gt 0 ]]
+	then
+		echo "Profit: " $moneyCheck;
+	else
+		echo "Loss: " $moneyCheck;
+	fi
+}
+
+#-------------------------------------------------------------------------------------
+
+
+sortArray
+sumTotalHistory
+sumWinningHistory
+sumLosingHistory
+displayRecords
+monthlyProfitLoss
