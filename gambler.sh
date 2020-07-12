@@ -77,7 +77,6 @@ function sortArray(){
 
        	 if [[ ${recordHistory[index]} -gt ${recordHistory[j]} ]]
        	 then
-				#echo "reading if condition"
 				temp=${recordHistory[index]}
             recordHistory[index]=${recordHistory[j]}
             recordHistory[j]=$temp
@@ -96,9 +95,7 @@ echo "Your Luckiest Day: " ${recordHistory[19]};
 
 }
 
-#echo "Your Unluckies Day: " ${recordHistory[0]};
-#echo "Your Luckiest Day: " ${recordHistory[4]};
-echo "Number of record in WHistory: " ${#recordHistory[@]};
+echo "Number of record in whole record History: " ${#recordHistory[@]};
 echo "Number of records in winning: " ${#recordWinningHistory[@]};
 echo "Number of records in Lossing: " ${#recordLossingHistory[@]};
 
@@ -162,4 +159,3 @@ sumWinningHistory
 sumLosingHistory
 displayRecords
 monthlyProfitLoss
-.pok
