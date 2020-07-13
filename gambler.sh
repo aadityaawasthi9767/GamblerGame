@@ -1,6 +1,5 @@
 #! /bin/bash -
 
-
 #CONSTANTS
 DAILY_AMOUNT=100;
 DAILY_BET=1;
@@ -28,8 +27,6 @@ do
 	percentage=$((duplicateAmount/2))
    MAX_LIMIT=$(($duplicateAmount + $percentage ));
    MIN_LIMIT=$(($duplicateAmount - $percentage ));
-
-
 
 	while [[ $duplicateAmount -gt $MIN_LIMIT && $duplicateAmount -lt $MAX_LIMIT ]]
 	do
