@@ -7,11 +7,8 @@ DAILY_BET=1;
 WON=1;
 LOSS=0;
 duplicateAmount=$((dailyAmount));
-MAX_LIMIT=150;
-MIN_LIMIT=50;
 MAX_DAYS=30;
 monthlyAmount=$((dailyAmount*20))
-
 
 #ARRAY
 declare -a recordHistory;
@@ -23,13 +20,15 @@ counterRecordHistory=0;
 sum=0;
 counterRecordWinningHistory=0;
 counterRecordLossingHistory=0;
+temp=0;
 
 for((index=0;index<$MAX_DAYS;index++))
 	do
 
 		duplicateAmount=$((temp+100));
-		MAX_LIMIT=$(($duplicateAmount + (( $duplicateAmount / 2 )) ));
-		MIN_LIMIT=$(($duplicateAmount - (( $duplicateAmount / 2 )) ));
+		percentage=$(($duplicateAmount/2))
+		MAX_LIMIT=$(($duplicateAmount + $percentage ));
+		MIN_LIMIT=$(($duplicateAmount - $percentage ));
 
 		while [[ $duplicateAmount -gt $MIN_LIMIT && $duplicateAmount -lt $MAX_LIMIT ]]
 		do
