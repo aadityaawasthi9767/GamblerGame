@@ -6,7 +6,7 @@ DAILY_BET=1;
 WON=1;
 LOSS=0;
 
-duplicateAmount=DAILY_AMOUNT;
+duplicateAmount=$((DAILY_AMOUNT));
 
 
 betCheck=$((RANDOM%2));
