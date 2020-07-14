@@ -25,10 +25,10 @@ do
 
 	duplicateAmount=$(($temp+$DAILY_AMOUNT));
 	percentage=$((duplicateAmount/2))
-   MAX_LIMIT=$(($duplicateAmount + $percentage ));
-   MIN_LIMIT=$(($duplicateAmount - $percentage ));
+   maxLimit=$(($duplicateAmount + $percentage ));
+   minLimit=$(($duplicateAmount - $percentage ));
 
-	while [[ $duplicateAmount -gt $MIN_LIMIT && $duplicateAmount -lt $MAX_LIMIT ]]
+	while [[ $duplicateAmount -gt $minLimit && $duplicateAmount -lt $maxLimit ]]
 	do
 
 		betCheck=$((RANDOM%2));
@@ -47,12 +47,12 @@ do
 		temp=$((duplicateAmount));
 
 		recordHistory[((counterRecordHistory++))]=$((duplicateAmount));
-		if [ $duplicateAmount -eq $MAX_LIMIT ]
+		if [ $duplicateAmount -eq $maxLimit ]
 		then
 			recordWinningHistory[((counterRecordWinningHistory++))]=$((duplicateAmount))
 			echo "Day " $counterRecordHistory " You Win! :" $duplicateAmount;
 
-		elif [ $duplicateAmount -eq $MIN_LIMIT ]
+		elif [ $duplicateAmount -eq $minLimit ]
 		then
 			recordLossingHistory[((counterRecordLossingHistory++))]=$((duplicateAmount))
 			echo "Day " $counterRecordHistory " You Lost! :" $duplicateAmount;
@@ -85,8 +85,7 @@ echo "Your Luckiest Day: " ${recordHistory[29]};
 
 }
 
-echo "ArrayValues: " $recordHistoryLength;
-echo "Number of record in WHistory: " ${#recordHistory[@]};
+echo "Number of records in Whole History: " ${#recordHistory[@]};
 echo "Number of records in winning: " ${#recordWinningHistory[@]};
 echo "Number of records in Lossing: " ${#recordLossingHistory[@]};
 
