@@ -82,8 +82,8 @@ function sortRecordHistory(){
    	 done
 	done
 
-echo "Your Unluckies Day: " ${recordHistory[0]};
-echo "Your Luckiest Day: " ${recordHistory[29]};
+	echo "Your Unluckies Day: " ${recordHistory[0]};
+	echo "Your Luckiest Day: " ${recordHistory[29]};
 
 }
 
@@ -121,11 +121,11 @@ function sumLosingHistory(){
 
 function displayRecords(){
 
-echo "Total Amount after 30 days: "$totalSum;
-echo "Total Winning Days: " $counterRecordWinningHistory;
-echo "Total Winning Amount: " $winSum;
-echo "Total Lossing Days: " $counterRecordLossingHistory;
-echo "Total Lossing Amount: " $lossSum;
+	echo "Total Amount after 30 days: "$totalSum;
+	echo "Total Winning Days: " $counterRecordWinningHistory;
+	echo "Total Winning Amount: " $winSum;
+	echo "Total Lossing Days: " $counterRecordLossingHistory;
+	echo "Total Lossing Amount: " $lossSum;
 }
 
 function monthlyProfitLoss(){
@@ -133,14 +133,27 @@ function monthlyProfitLoss(){
 	moneyCheck=$((totalSum-monthlyAmount))
 	if [[ $moneyCheck -gt 0 ]]
 	then
-		echo "Profit: " $moneyCheck;
-		echo "Your Game will be continued for next Month";
+		echo "Profit: " $moneyCheck "Your Game will be continued for next Month";
 		duplicateAmount=$((moneyCheck+duplicateAmount));
 		echo "New Amount for this Month: " $duplicateAmount;
 	else
-		echo "Loss: " $moneyCheck;
-		echo "You are in debt! Unfortunatly you CAN'T continue."
+		echo "Loss: " $moneyCheck "You are in debt! Unfortunatly you CAN'T continue."
 	fi
+}
+
+function storingRecords(){
+
+	recordHistory[((counterRecordHistory++))]=$((duplicateAmount));
+	if [ $duplicateAmount -eq $MAX_LIMIT ]
+  	then
+      recordWinningHistory[((counterRecordWinningHistory++))]=$((duplicateAmount))
+      echo "Day " $counterRecordHistory " You Win! :" $duplicateAmount;
+	elif [ $duplicateAmount -eq $MIN_LIMIT ]
+   then
+        recordLossingHistory[((counterRecordLossingHistory++))]=$((duplicateAmount))
+        echo "Day " $counterRecordHistory " You Lost! :" $duplicateAmount;
+	fi
+
 }
 
 #-------------------------------------------------------------------------------------
@@ -152,3 +165,4 @@ sumWinningHistory
 sumLosingHistory
 displayRecords
 monthlyProfitLoss
+storingRecords
